@@ -72,3 +72,25 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Project(models.Model):
+
+    PROJECT_STATUS = [
+        (1, "In development"),
+        (2, "In support"),
+        (3, "Deployed"),
+        (4, "Closed")
+    ]
+
+    name = models.CharField(max_length=63)
+    description = models.TextField()
+    deadline = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(
+        choices=PROJECT_STATUS,
+        default=1
+    )
+    tasks = models.ManyToManyField(
+        Task,
+        related_name="projects"
+    )
