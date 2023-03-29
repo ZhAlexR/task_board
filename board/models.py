@@ -4,7 +4,10 @@ from django.db import models
 
 
 class Position(models.Model):
-    name = models.CharField(max_length=63)
+    name = models.CharField(
+        max_length=63,
+        default="Developer"
+    )
 
     def __str__(self):
         return self.name
@@ -21,8 +24,12 @@ class Worker(AbstractUser):
     position = models.ForeignKey(
         Position,
         on_delete=models.CASCADE,
-        related_name="workers"
+        related_name="workers",
     )
+
+    class Meta:
+        verbose_name = "worker"
+        verbose_name_plural = "workers"
 
     def __str__(self):
         return (
