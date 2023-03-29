@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h3>{{ task.name }}</h3>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Description:</h5>
+      <p class="card-text">{{ task.description }}</p>
+      <h5 class="card-title">Deadline:</h5>
+      <p class="card-text">{{ task.deadline }}</p>
+      <h5 class="card-title">Priority:</h5>
+      <p class="card-text">{{ task.priority }}</p>
+      <h5 class="card-title">Type:</h5>
+      <p class="card-text">{{ task.task_type }}</p>
+      <h5 class="card-title">Assigned To:</h5>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for worker in task.assignees.all %}
+            <tr>
+              <td>{{ worker.username }}</td>
+              <td>{{ worker.email }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="#" class="btn btn-primary">Update</a>
+      <form method="POST" action="#" style="display: inline-block;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+      {% if user not in task.assignees.all %}
+        <form method="POST" action="#" style="display: inline-block;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Assign Me</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
