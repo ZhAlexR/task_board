@@ -1,0 +1,11 @@
+*.iml
+*.sqlite3
+*.db3
+
+.idea/
+.vscode/
+.DS_Store
+.pytest_cache/
+**__pycache__/
+venv/
+
