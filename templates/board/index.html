@@ -1,5 +1,32 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-  <h1> Task list </h1>
+  <div class="row">
+    {% for task in task_list %}
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <a href="#" class="card-link card_link">
+          <div class="card h-100" style="max-width: 300px;">
+            <div class="card-header
+              {% if task.priority == 'urgent' %}
+                bg-danger
+              {% elif task.priority == 'high' %}
+                bg-warning
+              {% elif task.priority == 'medium' %}
+                bg-info
+              {% elif task.priority == 'low' %}
+                bg-success
+              {% endif %} text-white">
+              {{ task.name }}
+            </div>
+            <div class="card-body">
+              <p class="card-text">{{ task.description }}</p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">{{ task.deadline }}</small>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

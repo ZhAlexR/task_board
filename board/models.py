@@ -45,7 +45,7 @@ class Task(models.Model):
         ("high", "High"),
         ("medium", "Medium"),
         ("low", "Low")
-    ]
+        ]
 
     MEDIUM_PRIORITY = TASK_PRIORITY[2][0]
 
