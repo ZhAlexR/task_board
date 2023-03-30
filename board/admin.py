@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from board.models import Task, TaskType, Position, Worker
+from board.models import Task, TaskType, Position, Worker, Project
+
 get_user_model()
 
 @admin.register(Worker)
@@ -32,3 +33,7 @@ class TaskTypeAdmin(admin.ModelAdmin):
 class PositionAdmin(admin.ModelAdmin):
     pass
 
+
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    pass

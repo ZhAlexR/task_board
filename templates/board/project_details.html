@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h3>{{ project.name }}: {{ project.status }}</h3>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Description:</h5>
+      <p class="card-text">{{ project.description }}</p>
+      <h5 class="card-title">Deadline:</h5>
+      <p class="card-text">{{ project.deadline }}</p>
+      <h5 class="card-title">Tasks:</h5>
+      {% for task in project.tasks.all %}
+        <ul>
+          <li>
+            <a href="{% url "board:task-detail" pk=task.pk %}">{{ task.name }}</a>
+          </li>
+        </ul>
+      {% endfor %}
+      <a href="#" class="btn btn-primary">Update</a>
+      <a href="#" class="btn btn-danger">Delete</a>
+      {% if user not in task.assignees.all %}
+        <form method="POST" action="#" style="display: inline-block;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Assign Me</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+<div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url "board:index" %}">All projects</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url "board:user-projects" pk=user.pk %}" id="my-projects-link">My projects</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled">Create project</a>
+    </li>
+  </ul>
+  <form class="form-inline ml-auto">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</div>
