@@ -1,10 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from board.forms import ProjectCreateForm
+from board.forms import ProjectCreateForm, SearchForm
 from board.models import Task, Project
 
 
@@ -12,12 +11,47 @@ class IndexListView(generic.ListView):
     model = Project
     template_name = "board/index.html"
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_criteria = self.request.GET.get("search_criteria", "")
+        context["search_form"] = SearchForm(
+            initial={"search_criteria": search_criteria}
+        )
+        return context
+
     def get_queryset(self):
-        self.queryset = Project.objects.all()
-        user_pk = self.request.GET.get("user_pk")
-        if user_pk:
-            self.queryset = Project.objects.filter(tasks__assignees__id=user_pk)
-        return self.queryset
+        queryset = super().get_queryset()
+        form = SearchForm(self.request.GET)
+
+        if form.is_valid():
+            queryset = queryset.filter(
+                name__icontains=form.cleaned_data["search_criteria"]
+            )
+        return queryset
+
+
+class UserProjectListView(generic.ListView):
+    model = Project
+    template_name = "board/index.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_criteria = self.request.GET.get("search_criteria", "")
+        context["search_form"] = SearchForm(
+            initial={"search_criteria": search_criteria}
+        )
+        return context
+
+    def get_queryset(self):
+        user_pk = self.kwargs.get("pk")
+        queryset = Project.objects.filter(tasks__assignees=user_pk)
+        form = SearchForm(self.request.GET)
+
+        if form.is_valid():
+            queryset = queryset.filter(
+                name__icontains=form.cleaned_data["search_criteria"]
+            )
+        return queryset
 
 
 class ProjectCreateView(generic.CreateView):
@@ -28,7 +62,23 @@ class ProjectCreateView(generic.CreateView):
 
 class ProjectDetailView(generic.DetailView):
     model = Project
-    queryset = Project.objects.prefetch_related("tasks")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_criteria = self.request.GET.get("search_criteria", "")
+        context["search_form"] = SearchForm(
+            initial={"search_criteria": search_criteria}
+        )
+        context["task_list"] = kwargs.get("object").tasks
+        form = SearchForm(self.request.GET)
+
+        if form.is_valid():
+            search_criteria = form.cleaned_data["search_criteria"]
+            context["task_list"] = context["task_list"].filter(
+                name__icontains=search_criteria
+            )
+
+        return context
 
 
 class ProjectUpdateView(generic.UpdateView):
@@ -46,11 +96,25 @@ class ProjectDeleteView(generic.DeleteView):
 class UserTaskListView(generic.ListView):
     model = Task
     template_name = "board/task_list.html"
-    
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_criteria = self.request.GET.get("search_criteria", "")
+        context["search_form"] = SearchForm(
+            initial={"search_criteria": search_criteria}
+        )
+        return context
+
     def get_queryset(self):
-        queryset = super(UserTaskListView, self).get_queryset()
         user_pk = self.kwargs.get("pk")
-        return queryset.filter(assignees=user_pk)
+        queryset = Task.objects.filter(assignees=user_pk)
+        form = SearchForm(self.request.GET)
+
+        if form.is_valid():
+            queryset = queryset.filter(
+                name__icontains=form.cleaned_data["search_criteria"]
+            )
+        return queryset
 
 
 class TaskDetailView(generic.DetailView):

@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="position",
             name="name",
-            field=models.CharField(default="Developer", max_length=63, unique=True),
+            field=models.CharField(
+                default="Developer", max_length=63, unique=True
+            ),
         ),
     ]

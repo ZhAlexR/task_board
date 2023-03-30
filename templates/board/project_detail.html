@@ -2,6 +2,10 @@
 
 {% block sideinfo %}
   <div class="card">
+    <form method="get" action="#" style="display: inline-block;">
+      {% csrf_token %}
+      {{ form.as_p }}
+    </form>
     <div class="card-header">
       <h3>{{ project.name }}: {{ project.status }}</h3>
     </div>
@@ -18,37 +22,40 @@
           <button type="submit" class="btn btn-success">Assign Me</button>
         </form>
       {% endif %}
+
     </div>
   </div>
 {% endblock %}
 
 {% block content %}
   <div class="row">
-    {% for task in project.tasks.all %}
-      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-        <a href="{% url "board:task-detail" pk=task.pk %}" class="card-link card_link">
-          <div class="card h-100" style="max-width: 300px;">
-            <div class="card-header
-              {% if task.priority == 'urgent' %}
-                bg-danger
-              {% elif task.priority == 'high' %}
-                bg-warning
-              {% elif task.priority == 'medium' %}
-                bg-info
-              {% elif task.priority == 'low' %}
-                bg-success
-              {% endif %} text-white">
-              {{ task.name }}
+    {% if task_list %}
+      {% for task in task_list.all %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <a href="{% url "board:task-detail" pk=task.pk %}" class="card-link card_link">
+            <div class="card h-100" style="max-width: 300px;">
+              <div class="card-header
+                {% if task.priority == 'urgent' %}
+                  bg-danger
+                {% elif task.priority == 'high' %}
+                  bg-warning
+                {% elif task.priority == 'medium' %}
+                  bg-info
+                {% elif task.priority == 'low' %}
+                  bg-success
+                {% endif %} text-white">
+                {{ task.name }}
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{ task.description }}</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">{{ task.deadline }}</small>
+              </div>
             </div>
-            <div class="card-body">
-              <p class="card-text">{{ task.description }}</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">{{ task.deadline }}</small>
-            </div>
-          </div>
-        </a>
-      </div>
-    {% endfor %}
+          </a>
+        </div>
+      {% endfor %}
+    {% endif %}
   </div>
 {% endblock %}
