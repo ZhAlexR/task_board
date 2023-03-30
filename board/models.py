@@ -85,12 +85,13 @@ class Project(models.Model):
 
     name = models.CharField(max_length=63)
     description = models.TextField()
-    deadline = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField()
     status = models.IntegerField(
         choices=PROJECT_STATUS,
         default=1
     )
     tasks = models.ManyToManyField(
         Task,
+        null=True,
         related_name="projects"
     )

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
+from board.forms import ProjectCreateForm
 from board.models import Task, Project
 
 
@@ -11,16 +12,23 @@ class IndexListView(generic.ListView):
 
     def get_queryset(self):
         self.queryset = Project.objects.all()
-        user_id = self.kwargs.get("pk")
-        if user_id:
-            self.queryset = Project.objects.filter(tasks__assignees__id=3)
+        user_pk = self.request.GET.get("user_pk")
+        if user_pk:
+            self.queryset = Project.objects.filter(tasks__assignees__id=user_pk)
         return self.queryset
+
+
+class ProjectCreateView(generic.CreateView):
+    model = Project
+    form_class = ProjectCreateForm
+    success_url = reverse_lazy("board:index")
 
 
 class ProjectDetailView(generic.DetailView):
     model = Project
     queryset = Project.objects.prefetch_related("tasks")
     template_name = "board/project_details.html"
+
 
 class TaskDetailView(generic.DetailView):
     model = Task
