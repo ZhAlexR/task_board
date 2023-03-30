@@ -4,7 +4,7 @@
 
 {% block content %}
   <div class="container">
-    <h1>{{ object|yesno:"Update,Create" }} Task</h1>
+    <h1>{{ object|yesno:"Update,Create" }} Project</h1>
     <form method="post">
       {% csrf_token %}
       <div class="form-group">

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Two Layouts Example</title>
+	<!-- Load Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<style>
+		body {
+			background-color: white;
+			margin: 0;
+			padding: 0;
+		}
+		.border-gray {
+			border: 1px solid gray;
+			padding: 15px;
+			margin: 15px 0;
+			border-radius: 10px;
+		}
+		.bg-light-blue {
+			background-color: #d5e5f5;
+		}
+	</style>
+</head>
+<body>
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Two Layouts Example</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Contact</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- First Layout - Filters and General Info -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4 border-gray bg-light-blue rounded">
+				<!-- Filters and General Info Go Here -->
+			</div>
+			<div class="col-md-8">
+				<!-- Second Layout - Topic Information -->
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col border-gray bg-light-blue rounded">
+							<!-- Topic Information Goes Here -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Load Bootstrap JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

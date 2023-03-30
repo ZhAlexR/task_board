@@ -1,3 +1,30 @@
-.card_link {
-  color: gray;
-}
+  body {
+      background-color: white;
+      margin: 0;
+      padding: 0;
+  }
+  .border-gray {
+      border: 1px solid gray;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 10px;
+  }
+  .bg-light-blue {
+      background-color: #d5e5f5;
+  }
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 10px 0;
+  }
+
+  .layout-1 {
+    height: calc(100vh - 56px - 70px);
+    /* 100vh - height of navbar - height of footer */
+  }
+  .layout-2 {
+    height: calc(100vh - 56px - 70px);
+    /* 100vh - height of navbar - height of footer */
+  }

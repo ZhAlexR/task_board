@@ -1,3 +1,5 @@
+from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
@@ -27,7 +29,28 @@ class ProjectCreateView(generic.CreateView):
 class ProjectDetailView(generic.DetailView):
     model = Project
     queryset = Project.objects.prefetch_related("tasks")
-    template_name = "board/project_details.html"
+
+
+class ProjectUpdateView(generic.UpdateView):
+    model = Project
+    fields = "__all__"
+    success_url = reverse_lazy("board:index")
+
+
+class ProjectDeleteView(generic.DeleteView):
+    model = Project
+    success_url = reverse_lazy("board:index")
+    template_name = "board/confirm_delete.html"
+
+
+class UserTaskListView(generic.ListView):
+    model = Task
+    template_name = "board/task_list.html"
+    
+    def get_queryset(self):
+        queryset = super(UserTaskListView, self).get_queryset()
+        user_pk = self.kwargs.get("pk")
+        return queryset.filter(assignees=user_pk)
 
 
 class TaskDetailView(generic.DetailView):
@@ -43,5 +66,16 @@ class TaskUpdateView(generic.UpdateView):
 
 class TaskDeleteView(generic.DeleteView):
     model = Task
+    template_name = "board/confirm_delete.html"
     success_url = reverse_lazy("board:index")
 
+
+def toggle_assign_to_task(request, pk):
+    worker = get_user_model().objects.get(id=request.user.id)
+    if (
+        Task.objects.get(pk=pk) in worker.tasks.all()
+    ):  # probably could check if car exists
+        worker.tasks.remove(pk)
+    else:
+        worker.tasks.add(pk)
+    return HttpResponseRedirect(reverse_lazy("board:task-detail", args=[pk]))

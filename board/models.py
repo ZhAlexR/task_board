@@ -6,6 +6,7 @@ from django.db import models
 class Position(models.Model):
     name = models.CharField(
         max_length=63,
+        unique=True,
         default="Developer"
     )
 
@@ -67,6 +68,12 @@ class Task(models.Model):
     )
     assignees = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
+    project = models.ForeignKey(
+        "Project",
+        on_delete=models.CASCADE,
+        related_name="tasks"
+    )
+
     class Meta:
         default_related_name = "tasks"
 
@@ -90,8 +97,6 @@ class Project(models.Model):
         choices=PROJECT_STATUS,
         default=1
     )
-    tasks = models.ManyToManyField(
-        Task,
-        null=True,
-        related_name="projects"
-    )
+
+    def __str__(self):
+        return self.name

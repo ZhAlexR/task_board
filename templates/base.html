@@ -1,29 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>{% block title %}Task Board{% endblock %}</title>
-      <!-- Bootstrap 4 CSS -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-      {% load static %}
-      <link rel="stylesheet" href="{% static "css/styles.css" %}">
-  </head>
-  <body>
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<html>
+<head>
+	<title>Two Layouts Example</title>
+	<!-- Load Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  {% load static %}
+  <link rel="stylesheet" href="{% static "css/styles.css" %}">
+</head>
+<body>
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
     {% include "includes/navbar.html" %}
-  </nav>
+	</nav>
 
-  <div class="container mt-5">
-      {% block content %}
-      {% endblock %}
+	<!-- First Layout - Filters and General Info -->
+  <div class="container-fluid layout-1">
+    <div class="row h-100">
+      <div class="col-md-2 border-gray bg-light-blue rounded">
+        {% block sideinfo %}{% endblock %}
+      </div>
+      <div class="col-md-10 h-100">
+        <!-- Second Layout - Topic Information -->
+        <div class="container-fluid h-100">
+          <div class="row h-100">
+            <div class="col border-gray bg-light-blue rounded">
+              {% block content %}
+              {% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Bootstrap 4 JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="{% static "js/logic.js" %}"></script>
-  </body>
+  <!-- Footer -->
+	<footer class="footer">
+		<div class="container-fluid text-center">
+			<p>&copy; 2023 - Two Layouts Example</p>
+		</div>
+	</footer>
+
+	<!-- Load Bootstrap JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
 </html>
+
