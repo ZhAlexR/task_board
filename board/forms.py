@@ -39,10 +39,11 @@ class ProjectFilterForm(forms.Form):
     closed_filter = forms.BooleanField(required=False)
     sort_by = forms.ChoiceField(
         choices=[
-            ('asc', 'Deadline ascending'),
-            ('desc', 'Deadline descending')
+            ("asc", "Deadline ascending"),
+            ("desc", "Deadline descending"),
         ]
     )
+
 
 class TaskForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(

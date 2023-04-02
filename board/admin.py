@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 
 from board.models import Task, TaskType, Position, Worker, Project
 
+
 @admin.register(Worker)
 class WorkerAdmin(UserAdmin):
     list_display = UserAdmin.list_display + ("position",)

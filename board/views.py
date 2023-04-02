@@ -1,22 +1,16 @@
 from datetime import date
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 
 from board.forms import TaskForm, SearchForm, ProjectForm, WorkerCreationForm
 from board.models import Task, Project, Worker
+from board.views_logic import SearchFormMixin
 
-
-class SearchFormMixin:
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        search_criteria = self.request.GET.get("search_criteria", "")
-        context["search_form"] = SearchForm(
-            initial={"search_criteria": search_criteria}
-        )
-        return context
 
 class IndexListView(SearchFormMixin, generic.ListView):
     model = Project
@@ -28,13 +22,16 @@ class IndexListView(SearchFormMixin, generic.ListView):
         tasks_info = Task.objects.all()
         staff = Worker.objects.all()
         context["tasks_total_number"] = tasks_info.count()
-        context["tasks_in_proces"] = tasks_info.filter(is_completed=False).count()
+        context["tasks_in_proces"] = tasks_info.filter(
+            is_completed=False
+        ).count()
         context["tasks_done"] = tasks_info.filter(is_completed=True).count()
-        context["tasks_expired"] = tasks_info.filter(deadline__lt=date.today(), is_completed=False).count()
+        context["tasks_expired"] = tasks_info.filter(
+            deadline__lt=date.today(), is_completed=False
+        ).count()
         context["staff"] = staff.count()
 
         return context
-
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -48,7 +45,9 @@ class IndexListView(SearchFormMixin, generic.ListView):
         return queryset
 
 
-class UserProjectListView(SearchFormMixin, generic.ListView):
+class WorkerProjectListView(
+    LoginRequiredMixin, SearchFormMixin, generic.ListView
+):
     model = Project
     template_name = "board/index.html"
 
@@ -63,9 +62,15 @@ class UserProjectListView(SearchFormMixin, generic.ListView):
             staff.update(task.assignees.all())
 
         context["tasks_total_number"] = assigned_tasks.count()
-        context["tasks_in_proces"] = assigned_tasks.filter(is_completed=False).count()
-        context["tasks_done"] = assigned_tasks.filter(is_completed=True).count()
-        context["tasks_expired"] = assigned_tasks.filter(deadline__lt=date.today(), is_completed=False).count()
+        context["tasks_in_proces"] = assigned_tasks.filter(
+            is_completed=False
+        ).count()
+        context["tasks_done"] = assigned_tasks.filter(
+            is_completed=True
+        ).count()
+        context["tasks_expired"] = assigned_tasks.filter(
+            deadline__lt=date.today(), is_completed=False
+        ).count()
         context["staff"] = len(staff)
 
         return context
@@ -83,13 +88,13 @@ class UserProjectListView(SearchFormMixin, generic.ListView):
         return queryset
 
 
-class ProjectCreateView(generic.CreateView):
+class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
     model = Project
     form_class = ProjectForm
     success_url = reverse_lazy("board:index")
 
 
-class ProjectDetailView(generic.DetailView):
+class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
 
     def get_context_data(self, **kwargs):
@@ -102,9 +107,13 @@ class ProjectDetailView(generic.DetailView):
         )
         context["task_list"] = kwargs.get("object").tasks
         context["tasks_total_number"] = tasks_info.count()
-        context["tasks_in_proces"] = tasks_info.filter(is_completed=False).count()
+        context["tasks_in_proces"] = tasks_info.filter(
+            is_completed=False
+        ).count()
         context["tasks_done"] = tasks_info.filter(is_completed=True).count()
-        context["tasks_expired"] = tasks_info.filter(deadline__lt=date.today(), is_completed=False).count()
+        context["tasks_expired"] = tasks_info.filter(
+            deadline__lt=date.today(), is_completed=False
+        ).count()
         context["staff"] = staff.count()
 
         form = SearchForm(self.request.GET)
@@ -118,26 +127,28 @@ class ProjectDetailView(generic.DetailView):
         return context
 
 
-class ProjectUpdateView(generic.UpdateView):
+class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Project
     form_class = ProjectForm
     success_url = reverse_lazy("board:index")
 
 
-class ProjectDeleteView(generic.DeleteView):
+class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Project
     success_url = reverse_lazy("board:index")
     template_name = "board/confirm_delete.html"
 
 
-class WorkerCreateView(generic.CreateView):
+class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
     model = Worker
     form_class = WorkerCreationForm
     template_name = "registration/sign-up.html"
     success_url = reverse_lazy("login")
 
 
-class UserTaskListView(SearchFormMixin, generic.ListView):
+class WorkerTaskListView(
+    LoginRequiredMixin, SearchFormMixin, generic.ListView
+):
     model = Task
     template_name = "board/task_list.html"
 
@@ -152,9 +163,15 @@ class UserTaskListView(SearchFormMixin, generic.ListView):
             staff.update(task.assignees.all())
 
         context["tasks_total_number"] = assigned_tasks.count()
-        context["tasks_in_proces"] = assigned_tasks.filter(is_completed=False).count()
-        context["tasks_done"] = assigned_tasks.filter(is_completed=True).count()
-        context["tasks_expired"] = assigned_tasks.filter(deadline__lt=date.today(), is_completed=False).count()
+        context["tasks_in_proces"] = assigned_tasks.filter(
+            is_completed=False
+        ).count()
+        context["tasks_done"] = assigned_tasks.filter(
+            is_completed=True
+        ).count()
+        context["tasks_expired"] = assigned_tasks.filter(
+            deadline__lt=date.today(), is_completed=False
+        ).count()
         context["staff"] = len(staff)
 
         return context
@@ -171,33 +188,34 @@ class UserTaskListView(SearchFormMixin, generic.ListView):
         return queryset
 
 
-class TaskCreateView(generic.CreateView):
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
     form_class = TaskForm
     success_url = reverse_lazy("board:index")
 
 
-class TaskDetailView(generic.DetailView):
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
     queryset = Task.objects.prefetch_related("assignees")
 
 
-class TaskUpdateView(generic.UpdateView):
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     form_class = TaskForm
     success_url = reverse_lazy("board:index")
 
 
-class TaskDeleteView(generic.DeleteView):
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     template_name = "board/confirm_delete.html"
     success_url = reverse_lazy("board:index")
 
 
+@login_required
 def toggle_assign_to_task(request, pk):
     worker = get_user_model().objects.get(pk=request.user.id)
     if (
-            Task.objects.get(pk=pk) in worker.tasks.all()
+        Task.objects.get(pk=pk) in worker.tasks.all()
     ):  # probably could check if car exists
         worker.tasks.remove(pk)
     else:
@@ -205,6 +223,7 @@ def toggle_assign_to_task(request, pk):
     return HttpResponseRedirect(reverse_lazy("board:task-detail", args=[pk]))
 
 
+@login_required
 def toggle_task_change_is_completed(request, pk):
     task = Task.objects.get(pk=pk)
     if task.is_completed:

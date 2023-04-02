@@ -28,7 +28,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "password",
+                    models.CharField(max_length=128, verbose_name="password"),
+                ),
                 (
                     "last_login",
                     models.DateTimeField(
@@ -73,7 +76,9 @@ class Migration(migrations.Migration):
                 (
                     "email",
                     models.EmailField(
-                        blank=True, max_length=254, verbose_name="email address"
+                        blank=True,
+                        max_length=254,
+                        verbose_name="email address",
                     ),
                 ),
                 (
@@ -95,7 +100,8 @@ class Migration(migrations.Migration):
                 (
                     "date_joined",
                     models.DateTimeField(
-                        default=django.utils.timezone.now, verbose_name="date joined"
+                        default=django.utils.timezone.now,
+                        verbose_name="date joined",
                     ),
                 ),
                 (
@@ -132,7 +138,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(default="Developer", max_length=63, unique=True),
+                    models.CharField(
+                        default="Developer", max_length=63, unique=True
+                    ),
                 ),
             ],
         ),
@@ -209,7 +217,10 @@ class Migration(migrations.Migration):
                         max_length=15,
                     ),
                 ),
-                ("assignees", models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                (
+                    "assignees",
+                    models.ManyToManyField(to=settings.AUTH_USER_MODEL),
+                ),
                 (
                     "project",
                     models.ForeignKey(
@@ -221,7 +232,8 @@ class Migration(migrations.Migration):
                 (
                     "task_type",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="board.tasktype"
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="board.tasktype",
                     ),
                 ),
             ],

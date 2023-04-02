@@ -3,14 +3,18 @@ from django.urls import path
 from board.views import (
     IndexListView,
     ProjectCreateView,
+    ProjectDeleteView,
+    ProjectUpdateView,
+    ProjectDetailView,
     TaskDetailView,
     TaskUpdateView,
     TaskDeleteView,
-    ProjectDeleteView,
-    ProjectUpdateView,
+    TaskCreateView,
+    WorkerProjectListView,
+    WorkerTaskListView,
+    WorkerCreateView,
     toggle_assign_to_task,
-    UserTaskListView,
-    ProjectDetailView, UserProjectListView, TaskCreateView, WorkerCreateView, toggle_task_change_is_completed,
+    toggle_task_change_is_completed,
 )
 
 app_name = "board"
@@ -22,7 +26,7 @@ urlpatterns = [
     ),
     path(
         "projects/user/<int:pk>/list/",
-        UserProjectListView.as_view(),
+        WorkerProjectListView.as_view(),
         name="user-project-list",
     ),
     path(
@@ -50,7 +54,7 @@ urlpatterns = [
     ),
     path(
         "tasks/user/<int:pk>/list/",
-        UserTaskListView.as_view(),
+        WorkerTaskListView.as_view(),
         name="user-task-list",
     ),
     path(
@@ -59,13 +63,9 @@ urlpatterns = [
         name="task-toggle-assign",
     ),
     path(
-            "tasks/<int:pk>/toogle_change_is_completed/",
-            toggle_task_change_is_completed,
-            name="task-change-is-completed",
-        ),
-    path(
-        "worker/create/",
-        WorkerCreateView.as_view(),
-        name="worker-create"
-        ),
+        "tasks/<int:pk>/toogle_change_is_completed/",
+        toggle_task_change_is_completed,
+        name="task-change-is-completed",
+    ),
+    path("worker/create/", WorkerCreateView.as_view(), name="worker-create"),
 ]
