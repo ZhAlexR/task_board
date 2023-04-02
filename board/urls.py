@@ -10,8 +10,7 @@ from board.views import (
     ProjectUpdateView,
     toggle_assign_to_task,
     UserTaskListView,
-    UserProjectListView,
-    ProjectDetailView,
+    ProjectDetailView, UserProjectListView, TaskCreateView,
 )
 
 app_name = "board"
@@ -41,6 +40,7 @@ urlpatterns = [
         ProjectDetailView.as_view(),
         name="project-detail",
     ),
+    path("tasks/create/", TaskCreateView.as_view(), name="task-create"),
     path("tasks/<int:pk>/", TaskDetailView.as_view(), name="task-detail"),
     path(
         "tasks/<int:pk>/update", TaskUpdateView.as_view(), name="task-update"

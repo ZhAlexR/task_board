@@ -9,6 +9,7 @@
       <div class="row detail-box">
         <div class="col-5 task-detail">
           <form method="post" action="" class="form-inline">
+            {% csrf_token %}
             {{ form|crispy }}
             <button class="btn btn-outline-light mx-2" type="submit">Create task</button>
             <button class="btn btn-outline-light mx-2" type="submit">Cancel</button>

@@ -1,37 +1,38 @@
-{% extends "base_layout.html" %}
+{% extends "base.html" %}
 
-{% block search %}
-  {% include "includes/search.html" %}
+{% block sidebar %}
+  {% include "includes/sidebar.html" %}
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    {% for task in task_list %}
-      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-        <a href="{% url "board:task-detail" pk=task.pk %}" class="card-link card_link">
-          <div class="card h-100" style="max-width: 300px;">
-            <div class="card-header
-              {% if task.priority == 'urgent' %}
-                bg-danger
-              {% elif task.priority == 'high' %}
-                bg-warning
-              {% elif task.priority == 'medium' %}
-                bg-info
-              {% elif task.priority == 'low' %}
-                bg-success
-              {% endif %} text-white">
-              {{ task.name }}
-            </div>
-            <div class="card-body">
-              <p class="card-text">{{ task.description }}</p>
-              <p class="card-text">{{ task.projects.all }}</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">{{ task.deadline }}</small>
-            </div>
+    <div class="col-md-9">
+    <main role="main" class="container-fluid">
+      <h1 class="mt-5">Project name</h1>
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id ipsum perferendis repudiandae voluptas! Aut, cumque eligendi expedita ipsa ipsum iusto quidem quisquam sint temporibus veniam!</p>
+      <div class="row row-cols-5">
+        {% for task in task_list %}
+          <div class="col-sm-3">
+            <!-- Project Card 1 -->
+            <a class="card-link" href="{% url "board:task-detail" pk=task.pk %}">
+              <div class="card">
+                <div class="card-header bg-success text-white">
+                  {{ task.name }}
+                </div>
+                <div class="card-body">
+                  <p class="card-text overflow-auto" style="max-height: 100px;">
+                    {{ task.description }}
+                  </p>
+                </div>
+                <div class="card-footer">
+                  Deadline: {{ task.deadline|date:"Y-m-d" }}
+                </div>
+              </div>
+            </a>
           </div>
-        </a>
+        {% endfor %}
       </div>
-    {% endfor %}
+      <!-- Pagination -->
+      {% include "includes/pagination.html" %}
+    </main>
   </div>
 {% endblock %}

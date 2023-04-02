@@ -100,8 +100,9 @@
     }
 
      .task-name {
-        text-decoration: underline;
-        margin-bottom: 30px;
+         display: inline-block;
+         text-decoration: underline;
+         margin-bottom: 30px;
     }
 
     .task-status {

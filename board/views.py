@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from board.forms import ProjectCreateForm, SearchForm
+from board.forms import TaskForm, SearchForm, ProjectForm
 from board.models import Task, Project
 
 
@@ -57,7 +57,7 @@ class UserProjectListView(generic.ListView):
 
 class ProjectCreateView(generic.CreateView):
     model = Project
-    form_class = ProjectCreateForm
+    form_class = ProjectForm
     success_url = reverse_lazy("board:index")
 
 
@@ -84,7 +84,7 @@ class ProjectDetailView(generic.DetailView):
 
 class ProjectUpdateView(generic.UpdateView):
     model = Project
-    fields = "__all__"
+    form_class = ProjectForm
     success_url = reverse_lazy("board:index")
 
 
@@ -92,6 +92,7 @@ class ProjectDeleteView(generic.DeleteView):
     model = Project
     success_url = reverse_lazy("board:index")
     template_name = "board/confirm_delete.html"
+
 
 
 class UserTaskListView(generic.ListView):
@@ -118,6 +119,12 @@ class UserTaskListView(generic.ListView):
         return queryset
 
 
+class TaskCreateView(generic.CreateView):
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy("board:index")
+
+
 class TaskDetailView(generic.DetailView):
     model = Task
     queryset = Task.objects.prefetch_related("assignees")
@@ -125,7 +132,7 @@ class TaskDetailView(generic.DetailView):
 
 class TaskUpdateView(generic.UpdateView):
     model = Task
-    fields = "__all__"
+    form_class = TaskForm
     success_url = reverse_lazy("board:index")
 
 
@@ -138,7 +145,7 @@ class TaskDeleteView(generic.DeleteView):
 def toggle_assign_to_task(request, pk):
     worker = get_user_model().objects.get(pk=request.user.id)
     if (
-        Task.objects.get(pk=pk) in worker.tasks.all()
+            Task.objects.get(pk=pk) in worker.tasks.all()
     ):  # probably could check if car exists
         worker.tasks.remove(pk)
     else:

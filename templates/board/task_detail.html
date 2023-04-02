@@ -7,10 +7,13 @@
       <div class="col-5 task-detail">
         <div>
           <p class="task-status">
-            priority: {{ task.priority }} | status: {{ task.is_completed|yesno:"in process,done" }} | deadline: {{ task.deadline|date:"Y-m-d" }}
+            priority: {{ task.priority }} | status: {{ task.is_completed|yesno:"done,in process" }} | deadline: {{ task.deadline|date:"Y-m-d" }}
           </p>
         </div>
-        <h3 class="task-name">{{ task.name }}</h3>
+        <h3 class="task-name" style="display: inline-block">{{ task.name }}</h3>
+        <a class="btn btn-outline-light mx-2 float-right" href="{% url "board:task-update" task.pk%}">
+          Update task
+        </a>
         <p class="task-description">
           {{ task.description }}
         </p>
