@@ -8,8 +8,8 @@ project tasks.
 ## Check it out!
 
 Test User:
-- login: best_qa 
-- password: 1qazcde3
+- login: User1
+- password: saha5991
 
 
 
