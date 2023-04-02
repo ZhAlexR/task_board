@@ -7,15 +7,26 @@
 {% block content %}
   <div class="col-md-9">
     <main role="main" class="container-fluid">
-      <h1 class="mt-5">Project name</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id ipsum perferendis repudiandae voluptas! Aut, cumque eligendi expedita ipsa ipsum iusto quidem quisquam sint temporibus veniam!</p>
+    <div>
+      <h1 class="mt-5">Welcome to the task board</h1>
+      <h4>Here is list of all projects</h4>
+    </div>
       <div class="row row-cols-5">
         {% for project in project_list %}
           <div class="col-sm-3">
             <!-- Project Card 1 -->
             <a class="card-link" href="{% url "board:project-detail" pk=project.pk %}">
               <div class="card">
-                <div class="card-header bg-success text-white">
+                <div class="card-header text-white" style="background-color:
+                    {% if project.status == 1 %}
+                      #00ff99
+                    {% elif project.status == 2 %}
+                      #99ccff
+                    {% elif project.status == 3 %}
+                      #ffcc99
+                    {% else %}
+                      #ff6666
+                    {% endif %}">
                   {{ project.name }}
                 </div>
                 <div class="card-body">

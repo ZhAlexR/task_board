@@ -1,20 +1,21 @@
 <div class="col-md-3 sidebar">
   <div class="project-info">
-    <h4>Project statistic</h4>
+    <h4>Statistic</h4>
     <h5>Tasks:</h5>
     <ul class="form-check-label">
-      <li>total number - 6</li>
-      <li>done - 3</li>
-      <li>in process - 2</li>
-      <li>expired - 1</li>
+      <li>total number - {{ tasks_total_number }}</li>
+      <li>done - {{ tasks_done }}</li>
+      <li>in process - {{ tasks_in_proces }} </li>
+      <li>expired - {{ tasks_expired }}</li>
     </ul>
     <h5>Staff:</h5>
     <ul class="form-check-label">
-      <li>total number - 6</li>
+      <li>total number - {{ staff }}</li>
     </ul>
   </div>
+
+  <h5 >Filters</h5>
   <form>
-    <h5 >Filters</h5>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" value="1" id="in-dev-filter">
       <label class="form-check-label" for="in-dev-filter">

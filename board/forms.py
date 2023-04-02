@@ -32,6 +32,18 @@ class ProjectForm(forms.ModelForm):
         return deadline
 
 
+class ProjectFilterForm(forms.Form):
+    in_dev_filter = forms.BooleanField(required=False)
+    in_support_filter = forms.BooleanField(required=False)
+    deployed_filter = forms.BooleanField(required=False)
+    closed_filter = forms.BooleanField(required=False)
+    sort_by = forms.ChoiceField(
+        choices=[
+            ('asc', 'Deadline ascending'),
+            ('desc', 'Deadline descending')
+        ]
+    )
+
 class TaskForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
