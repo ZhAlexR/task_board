@@ -11,7 +11,7 @@ Test User:
 - login: best_qa 
 - password: 1qazcde3
 
-[Task Manager Deployed to Render](https://task-manager-6k1p.onrender.com/)
+
 
 ## Installation
 
