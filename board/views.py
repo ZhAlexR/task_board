@@ -3,8 +3,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from board.forms import TaskForm, SearchForm, ProjectForm
-from board.models import Task, Project
+from board.forms import TaskForm, SearchForm, ProjectForm, WorkerCreationForm
+from board.models import Task, Project, Worker
 
 
 class IndexListView(generic.ListView):
@@ -93,6 +93,12 @@ class ProjectDeleteView(generic.DeleteView):
     success_url = reverse_lazy("board:index")
     template_name = "board/confirm_delete.html"
 
+
+class WorkerCreateView(generic.CreateView):
+    model = Worker
+    form_class = WorkerCreationForm
+    template_name = "registration/sign-up.html"
+    success_url = reverse_lazy("login")
 
 
 class UserTaskListView(generic.ListView):

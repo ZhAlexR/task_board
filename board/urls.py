@@ -10,7 +10,7 @@ from board.views import (
     ProjectUpdateView,
     toggle_assign_to_task,
     UserTaskListView,
-    ProjectDetailView, UserProjectListView, TaskCreateView,
+    ProjectDetailView, UserProjectListView, TaskCreateView, WorkerCreateView,
 )
 
 app_name = "board"
@@ -58,4 +58,9 @@ urlpatterns = [
         toggle_assign_to_task,
         name="task-toggle-assign",
     ),
+    path(
+        "worker/create/",
+        WorkerCreateView.as_view(),
+        name="worker-create"
+        ),
 ]

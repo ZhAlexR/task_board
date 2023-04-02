@@ -1,8 +1,20 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 
-from board.models import Project, Task
+from board.models import Project, Task, Worker
+
+
+class WorkerCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = Worker
+        fields = UserCreationForm.Meta.fields + (
+            "first_name",
+            "last_name",
+            "email",
+            "position",
+        )
 
 
 class ProjectForm(forms.ModelForm):
@@ -25,6 +37,7 @@ class TaskForm(forms.ModelForm):
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple,
     )
+
     class Meta:
         model = Task
         fields = "__all__"
@@ -47,4 +60,3 @@ class SearchForm(forms.Form):
         widget=forms.TextInput(attrs={"placeholder": "Search..."}),
         required=False,
     )
-
