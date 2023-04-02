@@ -5,20 +5,17 @@
 {% block content %}
   <div class="container">
     <h1>{{ object|yesno:"Update,Create" }} Task</h1>
-    <form method="post">
-      {% csrf_token %}
-      <div class="form-group">
-        {{ form|crispy }}
+    <div class="col-md-11">
+      <div class="row detail-box">
+        <div class="col-5 task-detail">
+          <form method="post" action="" class="form-inline">
+            {{ form|crispy }}
+            <button class="btn btn-outline-light mx-2" type="submit">Create task</button>
+            <button class="btn btn-outline-light mx-2" type="submit">Cancel</button>
+          </form>
+        </div>
       </div>
-      <div class="d-flex justify-content-end">
-        <input type="submit" class="btn btn-primary mr-2" value="Save">
-        <a href="{{ request.GET.previously }}">
-          <button class="btn btn-secondary">
-            Cancel
-          </button>
-        </a>
-      </div>
-    </form>
+    </div>
   </div>
 {% endblock %}
 

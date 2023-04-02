@@ -1,61 +1,42 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block sideinfo %}
-  <div class="card">
-    <form method="get" action="#" style="display: inline-block;">
-      {% csrf_token %}
-      {{ form.as_p }}
-    </form>
-    <div class="card-header">
-      <h3>{{ project.name }}: {{ project.status }}</h3>
-    </div>
-    <div class="card-body">
-      <h5 class="card-title">Description:</h5>
-      <p class="card-text">{{ project.description }}</p>
-      <h5 class="card-title">Deadline:</h5>
-      <p class="card-text">{{ project.deadline }}</p>
-      <a href="{% url "board:project-update" pk=project.pk %}" class="btn btn-primary">Update</a>
-      <a href="{% url "board:project-delete" pk=project.pk %}" class="btn btn-danger">Delete</a>
-      {% if user not in task.assignees.all %}
-        <form method="POST" action="#" style="display: inline-block;">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-success">Assign Me</button>
-        </form>
-      {% endif %}
-
-    </div>
-  </div>
+{% block sidebar %}
+  {% include "includes/sidebar.html" %}
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    {% if task_list %}
-      {% for task in task_list.all %}
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-          <a href="{% url "board:task-detail" pk=task.pk %}" class="card-link card_link">
-            <div class="card h-100" style="max-width: 300px;">
-              <div class="card-header
-                {% if task.priority == 'urgent' %}
-                  bg-danger
-                {% elif task.priority == 'high' %}
-                  bg-warning
-                {% elif task.priority == 'medium' %}
-                  bg-info
-                {% elif task.priority == 'low' %}
-                  bg-success
-                {% endif %} text-white">
-                {{ task.name }}
-              </div>
-              <div class="card-body">
-                <p class="card-text">{{ task.description }}</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">{{ task.deadline }}</small>
-              </div>
+  <div class="col-md-9">
+    <main role="main" class="container-fluid">
+      <h1 class="mt-5">{{ project.name }}</h1>
+      <p class="lead">{{ project.description }}</p>
+      {% if task_list %}
+        <div class="row row-cols-5">
+          {% for task in task_list %}
+            <div class="col-sm-3">
+              <!-- Project Card 1 -->
+              <a class="card-link" href="{% url "board:task-detail" pk=task.pk %}">
+                <div class="card">
+                  <div class="card-header bg-success text-white">
+                    {{ task.name }}
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text overflow-auto" style="max-height: 100px;">
+                      {{ task.description }}
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    Deadline: {{ task.deadline|date:"Y-m-d" }}
+                  </div>
+                </div>
+              </a>
             </div>
-          </a>
-        </div>
-      {% endfor %}
-    {% endif %}
+          {% endfor %}
+      </div>
+      {% else %}
+        <p>The project has not any tasks yet</p>
+      {% endif %}
+      <!-- Pagination -->
+      {% include "includes/pagination.html" %}
+    </main>
   </div>
 {% endblock %}

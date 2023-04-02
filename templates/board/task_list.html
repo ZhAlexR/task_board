@@ -1,4 +1,8 @@
-{% extends 'base.html' %}
+{% extends "base_layout.html" %}
+
+{% block search %}
+  {% include "includes/search.html" %}
+{% endblock %}
 
 {% block content %}
   <div class="row">

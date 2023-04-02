@@ -8,6 +8,9 @@ class ProjectCreateForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = "__all__"
+        widgets = {
+            "deadline": forms.DateInput(attrs={"type": "date"}),
+        }
 
     def clean_deadline(self):
         deadline = self.cleaned_data.get("deadline")
@@ -24,3 +27,4 @@ class SearchForm(forms.Form):
         widget=forms.TextInput(attrs={"placeholder": "Search..."}),
         required=False,
     )
+

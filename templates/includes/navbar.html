@@ -1,26 +1,47 @@
 {% load crispy_forms_filters %}
-<a class="navbar-brand" href="#">{{ user.username }}</a>
-<button class="navbar-toggler" type="button" data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-</button>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">Task Board</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url "board:index" %}">All projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url "board:user-project-list" pk=user.pk %}">My projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url "board:user-task-list" pk=user.pk %}">My tasks</a>
+      </li>
+    </ul>
+      <button class="btn btn-outline-light mx-2">
+        Create project
+      </button>
+      <button class="btn btn-outline-light mx-2">
+        Create task
+      </button>
 
-<div class="collapse navbar-collapse" id="navbarNav">
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" href="{% url "board:index" %}">All projects</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url "board:user-project-list" pk=user.pk %}" id="my-projects-link">My projects</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" href="{% url "board:project-create" %}">Create project</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" href="{% url "board:user-task-list" pk=user.pk %}">My tasks</a>
-    </li>
-  </ul>
-</div>
+
+    <ul class="navbar-nav ml-auto">
+
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="#">{{ user.username }}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Logout</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="#">Login</a>
+      </li>
+      {% endif %}
+    </ul>
+    <form method="get" class="form-inline">
+      {{ search_form|crispy }}
+      <button class="btn btn-outline-light mx-2 " type="submit">Search</button>
+    </form>
+  </div>
+</nav>
