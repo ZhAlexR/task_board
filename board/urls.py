@@ -10,7 +10,7 @@ from board.views import (
     ProjectUpdateView,
     toggle_assign_to_task,
     UserTaskListView,
-    ProjectDetailView, UserProjectListView, TaskCreateView, WorkerCreateView,
+    ProjectDetailView, UserProjectListView, TaskCreateView, WorkerCreateView, toggle_task_change_is_completed,
 )
 
 app_name = "board"
@@ -58,6 +58,11 @@ urlpatterns = [
         toggle_assign_to_task,
         name="task-toggle-assign",
     ),
+    path(
+            "tasks/<int:pk>/toogle_change_is_completed/",
+            toggle_task_change_is_completed,
+            name="task-change-is-completed",
+        ),
     path(
         "worker/create/",
         WorkerCreateView.as_view(),

@@ -6,14 +6,24 @@
     <div class="row detail-box">
       <div class="col-5 task-detail">
         <div>
-          <p class="task-status">
-            priority: {{ task.priority }} | status: {{ task.is_completed|yesno:"done,in process" }} | deadline: {{ task.deadline|date:"Y-m-d" }}
-          </p>
+          <div style="margin-bottom: 30px">
+            <a class="btn btn-outline-light mx-2" href="{% url "board:task-update" task.pk%}">
+              Update task
+            </a>
+            <a class="btn btn-outline-light mx-2" href="{% url "board:task-update" task.pk%}">
+              Delete task
+            </a>
+            <span class="task-status float-right">
+              priority: {{ task.priority }} | status: {{ task.is_completed|yesno:"done,in process" }} | deadline: {{ task.deadline|date:"Y-m-d" }}
+            </span>
+          </div>
         </div>
         <h3 class="task-name" style="display: inline-block">{{ task.name }}</h3>
-        <a class="btn btn-outline-light mx-2 float-right" href="{% url "board:task-update" task.pk%}">
-          Update task
-        </a>
+        <div class="float-right">
+            <a class="btn btn-outline-light mx-2" href="{% url "board:task-change-is-completed" task.pk%}">
+              {{ task.is_completed|yesno:"Open,Close" }} task
+            </a>
+        </div>
         <p class="task-description">
           {{ task.description }}
         </p>

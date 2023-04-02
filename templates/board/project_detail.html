@@ -7,7 +7,17 @@
 {% block content %}
   <div class="col-md-9">
     <main role="main" class="container-fluid">
-      <h1 class="mt-5">{{ project.name }}</h1>
+      <div>
+        <h1 class="mt-5" style="display: inline-block">
+          {{ project.name }}
+          <a class="btn comment-btn" href="{% url "board:project-update" pk=project.pk %}">
+            Update
+          </a>
+          <a class="btn comment-btn" href="{% url "board:project-delete" pk=project.pk %}">
+            Delete
+          </a>
+        </h1>
+      </div>
       <p class="lead">{{ project.description }}</p>
       {% if task_list %}
         <div class="row row-cols-5">

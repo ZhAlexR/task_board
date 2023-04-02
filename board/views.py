@@ -157,3 +157,13 @@ def toggle_assign_to_task(request, pk):
     else:
         worker.tasks.add(pk)
     return HttpResponseRedirect(reverse_lazy("board:task-detail", args=[pk]))
+
+
+def toggle_task_change_is_completed(request, pk):
+    task = Task.objects.get(pk=pk)
+    if task.is_completed:
+        task.is_completed = False
+    else:
+        task.is_completed = True
+    task.save()
+    return HttpResponseRedirect(reverse_lazy("board:task-detail", args=[pk]))

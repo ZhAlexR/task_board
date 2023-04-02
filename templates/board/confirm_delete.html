@@ -2,14 +2,14 @@
 
 {% block content %}
   <div class="container">
-    <h1>Delete task?</h1>
+    <h1>Delete Project?</h1>
     <form method="post">
       {% csrf_token %}
 
       <div>
-        <input type="submit" value="Yes" class="btn btn-danger">
+        <input type="submit" value="Yes" class="btn comment-btn">
         <a href="{{ request.GET.previously }}">
-          <button class="btn btn-secondary">
+          <button class="btn comment-btn">
             Cancel
           </button>
         </a>
