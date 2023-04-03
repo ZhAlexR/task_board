@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -139,8 +140,8 @@ class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "board/confirm_delete.html"
 
 
-class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
-    model = Worker
+class WorkerCreateView(generic.CreateView):
+    model = get_user_model()
     form_class = WorkerCreationForm
     template_name = "registration/sign-up.html"
     success_url = reverse_lazy("login")

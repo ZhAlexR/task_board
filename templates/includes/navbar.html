@@ -44,7 +44,7 @@
       {% endif %}
     </ul>
     <form method="get" class="form-inline">
-      {{ search_form.as_p }}
+      {{ search_form|crispy}}
       <button class="btn btn-outline-light mx-2 " type="submit">Search</button>
     </form>
   </div>
