@@ -8,7 +8,7 @@ project tasks.
 ## Check it out!
 
 Test User:
-- login: User1
+- login: User2
 - password: saha5991
 
 

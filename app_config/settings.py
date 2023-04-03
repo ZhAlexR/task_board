@@ -28,6 +28,7 @@ DEBUG = "RENDER" not in os.environ
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
+    "task-boaed.onrender.com"
 ]
 
 INTERNAL_IPS = [
