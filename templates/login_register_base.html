@@ -19,7 +19,7 @@
                   <form action="{% url "login" %}" method="post">
                     {% csrf_token %}
                     <div class="form-outline form-white mb-4">
-                      {{ form|crispy }}
+                      {{ form.as_p }}
                     </div>
                     <button class="btn btn-outline-light btn-lg px-5" type="submit">{{ action }}</button>
                   </form>
