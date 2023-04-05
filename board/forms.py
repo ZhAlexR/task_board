@@ -32,16 +32,21 @@ class ProjectForm(forms.ModelForm):
         return deadline
 
 
-class ProjectFilterForm(forms.Form):
-    in_dev_filter = forms.BooleanField(required=False)
-    in_support_filter = forms.BooleanField(required=False)
-    deployed_filter = forms.BooleanField(required=False)
-    closed_filter = forms.BooleanField(required=False)
-    sort_by = forms.ChoiceField(
-        choices=[
-            ("asc", "Deadline ascending"),
-            ("desc", "Deadline descending"),
-        ]
+class FilterForm(forms.Form):
+
+    DEADLINE_SORTING = [
+        ("deadline", "ascending"),
+        ("-deadline", "descending")
+    ]
+
+    status = forms.MultipleChoiceField(
+        choices=Project.PROJECT_STATUS,
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+    deadline = forms.ChoiceField(
+        choices=DEADLINE_SORTING,
+        widget=forms.RadioSelect,
     )
 
 
@@ -70,6 +75,6 @@ class SearchForm(forms.Form):
         max_length=63,
         label="",
         show_hidden_initial="Search...",
-        widget=forms.TextInput(attrs={"placeholder": "Search..."}),
+        widget=forms.TextInput(attrs={"placeholder": "Search by name"}),
         required=False,
     )
