@@ -4,13 +4,23 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from board.forms import TaskForm, SearchForm, ProjectForm, WorkerCreationForm
-from board.models import Task, Project, Worker
-from board.views_logic import SearchFormMixin, FilterFormMixin
+from board.forms import (
+    TaskForm,
+    ProjectForm,
+    WorkerCreationForm
+)
+from board.models import (
+    Task,
+    Project,
+    Worker
+)
+from board.views_logic import (
+    SearchFormMixin,
+    FilterFormMixin
+)
 
 
 class IndexListView(SearchFormMixin, FilterFormMixin, generic.ListView):
@@ -84,11 +94,6 @@ class ProjectDetailView(LoginRequiredMixin, SearchFormMixin, generic.DetailView)
         context = super().get_context_data(**kwargs)
         tasks_info = kwargs.get("object").tasks.all()
         staff = Worker.objects.filter(tasks__project=self.object).distinct()
-        search_criteria = self.request.GET.get("search_criteria", "")
-        context["search_form"] = SearchForm(
-            initial={"search_criteria": search_criteria}
-        )
-        context["task_list"] = kwargs.get("object").tasks
         context["tasks_total_number"] = tasks_info.count()
         context["tasks_in_proces"] = tasks_info.filter(
             is_completed=False

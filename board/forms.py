@@ -32,24 +32,6 @@ class ProjectForm(forms.ModelForm):
         return deadline
 
 
-class FilterForm(forms.Form):
-
-    DEADLINE_SORTING = [
-        ("deadline", "ascending"),
-        ("-deadline", "descending")
-    ]
-
-    status = forms.MultipleChoiceField(
-        choices=Project.PROJECT_STATUS,
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-    deadline = forms.ChoiceField(
-        choices=DEADLINE_SORTING,
-        widget=forms.RadioSelect,
-    )
-
-
 class TaskForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
@@ -77,4 +59,21 @@ class SearchForm(forms.Form):
         show_hidden_initial="Search...",
         widget=forms.TextInput(attrs={"placeholder": "Search by name"}),
         required=False,
+    )
+
+
+class FilterForm(forms.Form):
+    DEADLINE_SORTING = [
+        ("deadline", "ascending"),
+        ("-deadline", "descending")
+    ]
+
+    status = forms.MultipleChoiceField(
+        choices=Project.PROJECT_STATUS,
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+    deadline = forms.ChoiceField(
+        choices=DEADLINE_SORTING,
+        widget=forms.RadioSelect,
     )

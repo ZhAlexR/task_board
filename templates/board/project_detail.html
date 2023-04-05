@@ -19,9 +19,9 @@
         </h1>
       </div>
       <p class="lead">{{ project.description }}</p>
-      {% if task_list %}
+      {% if project.tasks.all %}
         <div class="row row-cols-5">
-          {% for task in task_list %}
+          {% for task in project.tasks.all %}
             <div class="col-sm-3">
               <!-- Project Card 1 -->
               <a class="card-link" href="{% url "board:task-detail" pk=task.pk %}">
