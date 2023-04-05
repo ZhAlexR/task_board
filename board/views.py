@@ -10,10 +10,10 @@ from django.views import generic
 
 from board.forms import TaskForm, SearchForm, ProjectForm, WorkerCreationForm
 from board.models import Task, Project, Worker
-from board.views_logic import SearchFormMixin
+from board.views_logic import SearchFormMixin, FilterFormMixin
 
 
-class IndexListView(SearchFormMixin, generic.ListView):
+class IndexListView(SearchFormMixin, FilterFormMixin, generic.ListView):
     model = Project
     template_name = "board/index.html"
     paginate_by = 10
@@ -34,20 +34,9 @@ class IndexListView(SearchFormMixin, generic.ListView):
 
         return context
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        form = SearchForm(self.request.GET)
-
-        if form.is_valid():
-            queryset = queryset.filter(
-                name__icontains=form.cleaned_data["search_criteria"]
-            )
-
-        return queryset
-
 
 class WorkerProjectListView(
-    LoginRequiredMixin, SearchFormMixin, generic.ListView
+    LoginRequiredMixin, SearchFormMixin, FilterFormMixin,  generic.ListView
 ):
     model = Project
     template_name = "board/index.html"
@@ -78,14 +67,7 @@ class WorkerProjectListView(
 
     def get_queryset(self):
         user_pk = self.kwargs.get("pk")
-        queryset = Project.objects.filter(tasks__assignees=user_pk)
-        form = SearchForm(self.request.GET)
-
-        if form.is_valid():
-            queryset = queryset.filter(
-                name__icontains=form.cleaned_data["search_criteria"]
-            )
-
+        queryset = super().get_queryset().filter(tasks__assignees=user_pk)
         return queryset
 
 
@@ -95,7 +77,7 @@ class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("board:index")
 
 
-class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
+class ProjectDetailView(LoginRequiredMixin, SearchFormMixin, generic.DetailView):
     model = Project
 
     def get_context_data(self, **kwargs):
@@ -116,14 +98,6 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
             deadline__lt=date.today(), is_completed=False
         ).count()
         context["staff"] = staff.count()
-
-        form = SearchForm(self.request.GET)
-
-        if form.is_valid():
-            search_criteria = form.cleaned_data["search_criteria"]
-            context["task_list"] = context["task_list"].filter(
-                name__icontains=search_criteria
-            )
 
         return context
 
@@ -179,13 +153,7 @@ class WorkerTaskListView(
 
     def get_queryset(self):
         user_pk = self.kwargs.get("pk")
-        queryset = Task.objects.filter(assignees=user_pk)
-        form = SearchForm(self.request.GET)
-
-        if form.is_valid():
-            queryset = queryset.filter(
-                name__icontains=form.cleaned_data["search_criteria"]
-            )
+        queryset = super().get_queryset().filter(assignees=user_pk)
         return queryset
 
 
