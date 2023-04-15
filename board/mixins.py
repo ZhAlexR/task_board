@@ -1,7 +1,7 @@
 from board.forms import SearchForm, FilterForm
 
 
-class SearchFormMixin:
+class SearchFormContextMixin:
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         search_criteria = self.request.GET.get("search_criteria", "")
@@ -9,6 +9,9 @@ class SearchFormMixin:
             initial={"search_criteria": search_criteria}
         )
         return context
+
+
+class SearchFormQuerySetMixin:
 
     def get_queryset(self):
         queryset = super().get_queryset()
