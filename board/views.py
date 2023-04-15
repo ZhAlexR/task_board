@@ -7,12 +7,17 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from board.forms import TaskForm, ProjectForm, WorkerCreationForm
+from board.forms import TaskForm, ProjectForm, WorkerCreationForm, SearchForm
 from board.models import Task, Project, Worker
-from board.mixins import SearchFormMixin, FilterFormMixin
+from board.mixins import SearchFormQuerySetMixin, FilterFormMixin, SearchFormContextMixin
 
 
-class IndexListView(SearchFormMixin, FilterFormMixin, generic.ListView):
+class IndexListView(
+    SearchFormContextMixin,
+    SearchFormQuerySetMixin,
+    FilterFormMixin,
+    generic.ListView
+):
     model = Project
     template_name = "board/index.html"
     paginate_by = 10
@@ -35,7 +40,11 @@ class IndexListView(SearchFormMixin, FilterFormMixin, generic.ListView):
 
 
 class WorkerProjectListView(
-    LoginRequiredMixin, SearchFormMixin, FilterFormMixin, generic.ListView
+    LoginRequiredMixin,
+    SearchFormQuerySetMixin,
+    SearchFormContextMixin,
+    FilterFormMixin,
+    generic.ListView
 ):
     model = Project
     template_name = "board/index.html"
@@ -77,7 +86,9 @@ class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
 
 
 class ProjectDetailView(
-    LoginRequiredMixin, SearchFormMixin, generic.DetailView
+    LoginRequiredMixin,
+    SearchFormContextMixin,
+    generic.DetailView
 ):
     model = Project
 
@@ -94,6 +105,12 @@ class ProjectDetailView(
             deadline__lt=date.today(), is_completed=False
         ).count()
         context["staff"] = staff.count()
+        search_form = SearchForm(self.request.GET)
+
+        if search_form.is_valid():
+            context["task_list"] = self.object.tasks.filter(
+                name__icontains=search_form.cleaned_data["search_criteria"]
+            )
 
         return context
 
@@ -118,7 +135,10 @@ class WorkerCreateView(generic.CreateView):
 
 
 class WorkerTaskListView(
-    LoginRequiredMixin, SearchFormMixin, generic.ListView
+    LoginRequiredMixin,
+    SearchFormContextMixin,
+    SearchFormQuerySetMixin,
+    generic.ListView
 ):
     model = Task
     template_name = "board/task_list.html"
