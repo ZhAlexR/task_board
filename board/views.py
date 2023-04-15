@@ -17,7 +17,7 @@ from board.models import (
     Project,
     Worker
 )
-from board.views_logic import (
+from board.mixins import (
     SearchFormMixin,
     FilterFormMixin
 )
