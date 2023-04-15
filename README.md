@@ -2,10 +2,10 @@
 
 Django pet-project. It helps to manage tasks for certain project.
 Abilities:
-    1. Creating, updating and deleting project
-    2. Adding task, updating and deleting to project
-    3. Assigning worker to project
-    4. Simple filtering by name
+1. Creating, updating and deleting project
+2. Adding task, updating and deleting to project
+3. Assigning worker to project
+4. Simple filtering by name
 
 
 ## Check it out!
@@ -26,8 +26,11 @@ Python3 must be already installed
 git clone https://github.com/ZhAlexR/task_board
 cd task-manager
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate (on macOS and linux-systems)
+venv\Scripts\activate (on Windows)
 pip install -r requirements.txt
+python manage.py makemigration
+python manage.py migrate 
 python manage.py runserver # starts Django server
 ```
 
@@ -39,13 +42,6 @@ python manage.py runserver # starts Django server
 
 ## Demo
 
-![img.png](img.png)
-![img_1.png](img_1.png)!
+![img.png](demo_images/img.png)
+![img_1.png](demo_images/img_1.png)!
 
-
-# Task-manager Project
-
-Django project for managing and control tasks.Currently available for single 
-team and single project. It provides ability to control personal tasks
-and basic filter for PM or person who wants to understand whole scope of
-project tasks.
