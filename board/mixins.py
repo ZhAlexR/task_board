@@ -28,10 +28,7 @@ class FilterFormMixin:
         filters = self.request.GET.getlist("status")
         sorting = self.request.GET.get("deadline", "deadline")
         context["filter_form"] = FilterForm(
-            initial={
-                "status": filters,
-                "deadline": sorting
-            }
+            initial={"status": filters, "deadline": sorting}
         )
         return context
 
@@ -39,7 +36,9 @@ class FilterFormMixin:
         queryset = super().get_queryset()
         filter_form = FilterForm(self.request.GET)
         if filter_form.is_valid():
-            statuses = [int(numb) for numb in filter_form.cleaned_data.get("status")]
+            statuses = [
+                int(numb) for numb in filter_form.cleaned_data.get("status")
+            ]
             deadline = filter_form.cleaned_data.get("deadline")
             if statuses:
                 queryset = queryset.filter(status__in=statuses)

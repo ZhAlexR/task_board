@@ -63,15 +63,12 @@ class SearchForm(forms.Form):
 
 
 class FilterForm(forms.Form):
-    DEADLINE_SORTING = [
-        ("deadline", "ascending"),
-        ("-deadline", "descending")
-    ]
+    DEADLINE_SORTING = [("deadline", "ascending"), ("-deadline", "descending")]
 
     status = forms.MultipleChoiceField(
         choices=Project.PROJECT_STATUS,
         widget=forms.CheckboxSelectMultiple,
-        required=False
+        required=False,
     )
     deadline = forms.ChoiceField(
         choices=DEADLINE_SORTING,

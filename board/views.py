@@ -7,20 +7,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from board.forms import (
-    TaskForm,
-    ProjectForm,
-    WorkerCreationForm
-)
-from board.models import (
-    Task,
-    Project,
-    Worker
-)
-from board.mixins import (
-    SearchFormMixin,
-    FilterFormMixin
-)
+from board.forms import TaskForm, ProjectForm, WorkerCreationForm
+from board.models import Task, Project, Worker
+from board.mixins import SearchFormMixin, FilterFormMixin
 
 
 class IndexListView(SearchFormMixin, FilterFormMixin, generic.ListView):
@@ -46,7 +35,7 @@ class IndexListView(SearchFormMixin, FilterFormMixin, generic.ListView):
 
 
 class WorkerProjectListView(
-    LoginRequiredMixin, SearchFormMixin, FilterFormMixin,  generic.ListView
+    LoginRequiredMixin, SearchFormMixin, FilterFormMixin, generic.ListView
 ):
     model = Project
     template_name = "board/index.html"
@@ -87,7 +76,9 @@ class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("board:index")
 
 
-class ProjectDetailView(LoginRequiredMixin, SearchFormMixin, generic.DetailView):
+class ProjectDetailView(
+    LoginRequiredMixin, SearchFormMixin, generic.DetailView
+):
     model = Project
 
     def get_context_data(self, **kwargs):
