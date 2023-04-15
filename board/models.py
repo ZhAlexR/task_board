@@ -6,14 +6,14 @@ from django.db import models
 class Position(models.Model):
     name = models.CharField(max_length=63, unique=True, default="Developer")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
 class TaskType(models.Model):
     name = models.CharField(max_length=63)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -29,7 +29,7 @@ class Worker(AbstractUser):
         verbose_name = "worker"
         verbose_name_plural = "workers"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}" f"({self.position.name})"
 
 
@@ -63,7 +63,7 @@ class Task(models.Model):
     class Meta:
         default_related_name = "tasks"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -80,5 +80,5 @@ class Project(models.Model):
     deadline = models.DateTimeField()
     status = models.IntegerField(choices=PROJECT_STATUS, default=1)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
