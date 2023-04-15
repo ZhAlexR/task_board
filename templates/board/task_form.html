@@ -9,6 +9,7 @@
         <div class="col-5 task-detail">
           <h1>{{ object|yesno:"Update,Create" }} Task</h1>
           <form method="post" action="">
+            {% csrf_token %}
             {{ form.as_p }}
             <button class="btn btn-outline-light mx-2" type="submit">Create task</button>
           </form>
