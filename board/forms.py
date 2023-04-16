@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 from board.models import Project, Task
@@ -47,8 +48,11 @@ class TaskForm(forms.ModelForm):
 
     def clean_deadline(self):
         deadline = self.cleaned_data.get("deadline")
+        project = get_object_or_404(Project, pk=self.data.get("project"))
         if deadline < timezone.now():
             raise forms.ValidationError("Deadline must be in the future.")
+        if deadline > project.deadline:
+            raise forms.ValidationError("Task deadline must not be farther then project's deadline.")
         return deadline
 
 
