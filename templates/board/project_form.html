@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <div class="container">
+    <div class="col-md-11">
+      <div class="row detail-box">
+        <div class="col-5 task-detail">
+          <h1>{{ object|yesno:"Update,Create" }} Project </h1>
+          <form method="post" action="">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <button class="btn btn-outline-light mx-2" type="submit">Create project</button>
+            <button class="btn btn-outline-light mx-2" type="submit">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+

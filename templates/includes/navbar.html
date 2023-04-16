@@ -1,0 +1,51 @@
+{% load crispy_forms_filters %}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">Task Board</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url "board:index" %}">All projects</a>
+      </li>
+      {% if user.pk %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "board:user-project-list" pk=user.pk %}">My projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "board:user-task-list" pk=user.pk %}">My tasks</a>
+        </li>
+      {% endif %}
+    </ul>
+    {% if user.pk %}
+      <a class="btn btn-outline-light mx-2" href="{% url "board:project-create" %}">
+        Create project
+      </a>
+      <a class="btn btn-outline-light mx-2" href="{% url "board:task-create" %}">
+        Create task
+      </a>
+    {% endif %}
+
+
+    <ul class="navbar-nav ml-auto">
+
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="#">{{ user.username }}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url "logout" %}">Logout</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url "login" %}">Login</a>
+      </li>
+      {% endif %}
+    </ul>
+    <form method="get" class="form-inline">
+      {{ search_form|crispy}}
+      <button class="btn btn-outline-light mx-2 " type="submit">Search</button>
+    </form>
+  </div>
+</nav>

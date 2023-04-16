@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+  {% include "includes/sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+  <div class="col-md-9">
+    <main role="main" class="container-fluid">
+    <div>
+      <h1 class="mt-5">Welcome to the task board</h1>
+      <h4>Here is list of all projects</h4>
+    </div>
+      <div class="row row-cols-5">
+        {% for project in project_list %}
+          <div class="col-sm-3">
+            <!-- Project Card 1 -->
+            <a class="card-link" href="{% url "board:project-detail" pk=project.pk %}">
+              <div class="card">
+                <div class="card-header text-white" style="background-color:
+                    {% if project.status == 1 %}
+                      #00ff99
+                    {% elif project.status == 2 %}
+                      #99ccff
+                    {% elif project.status == 3 %}
+                      #ffcc99
+                    {% else %}
+                      #ff6666
+                    {% endif %}">
+                  {{ project.name }}
+                </div>
+                <div class="card-body">
+                  <p class="card-text overflow-auto" style="max-height: 100px;">
+                    {{ project.description }}
+                  </p>
+                </div>
+                <div class="card-footer">
+                  Deadline: {{ project.deadline|date:"Y-m-d" }}
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      <!-- Pagination -->
+      {% include "includes/pagination.html" %}
+    </main>
+  </div>
+{% endblock %}}

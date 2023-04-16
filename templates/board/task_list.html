@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+  {% include "includes/sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-9">
+    <main role="main" class="container-fluid">
+      <h1 class="mt-5">{{ user.username }} tasks list:</h1>
+      <div class="row row-cols-5">
+        {% for task in task_list %}
+          <div class="col-sm-3">
+            <!-- Project Card 1 -->
+            <a class="card-link" href="{% url "board:task-detail" pk=task.pk %}">
+              <div class="card">
+                <div class="card-header text-white" style="background-color:
+                    {% if task.priority == "low" %}
+                      #ccff99
+                    {% elif task.priority == "medium" %}
+                      #ffcc99
+                    {% elif task.priority == "high" %}
+                      #ff9933
+                    {% else %}
+                      #ff8080
+                    {% endif %}">
+                  {{ task.name }}
+                </div>
+                <div class="card-body">
+                  <p class="card-text overflow-auto" style="max-height: 100px;">
+                    {{ task.description }}
+                  </p>
+                </div>
+                <div class="card-footer">
+                  Deadline: {{ task.deadline|date:"Y-m-d" }}
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      <!-- Pagination -->
+      {% include "includes/pagination.html" %}
+    </main>
+  </div>
+{% endblock %}

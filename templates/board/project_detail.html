@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+  {% include "includes/sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+  <div class="col-md-9">
+    <main role="main" class="container-fluid">
+      <div>
+        <h1 class="mt-5" style="display: inline-block">
+          {{ project.name }}
+          <a class="btn comment-btn" href="{% url "board:project-update" pk=project.pk %}">
+            Update
+          </a>
+          <a class="btn comment-btn" href="{% url "board:project-delete" pk=project.pk %}">
+            Delete
+          </a>
+        </h1>
+      </div>
+      <p class="lead">{{ project.description }}</p>
+      {% if project.tasks.all %}
+        <div class="row row-cols-5">
+          {% for task in task_list %}
+            <div class="col-sm-3">
+              <!-- Project Card 1 -->
+              <a class="card-link" href="{% url "board:task-detail" pk=task.pk %}">
+                <div class="card">
+                  <div class="card-header text-white" style="background-color:
+                    {% if task.priority == "low" %}
+                      #ccff99
+                    {% elif task.priority == "medium" %}
+                      #ffcc99
+                    {% elif task.priority == "high" %}
+                      #ff9933
+                    {% else %}
+                      #ff8080
+                    {% endif %}">
+                    {{ task.name }}
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text overflow-auto" style="max-height: 100px;">
+                      {{ task.description }}
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    Deadline: {{ task.deadline|date:"Y-m-d" }}
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+      </div>
+      {% else %}
+        <p>The project has not any tasks yet</p>
+      {% endif %}
+      <!-- Pagination -->
+      {% include "includes/pagination.html" %}
+    </main>
+  </div>
+{% endblock %}

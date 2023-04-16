@@ -1,0 +1,22 @@
+<div class="col-md-3 sidebar">
+  <div class="project-info">
+    <h4>Statistic</h4>
+    <h5>Tasks:</h5>
+    <ul class="form-check-label">
+      <li>total number - {{ tasks_total_number }}</li>
+      <li>done - {{ tasks_done }}</li>
+      <li>in process - {{ tasks_in_proces }} </li>
+      <li>expired - {{ tasks_expired }}</li>
+    </ul>
+    <h5>Staff:</h5>
+    <ul class="form-check-label">
+      <li>total number - {{ staff }}</li>
+    </ul>
+  </div>
+
+  <h5 >Filters</h5>
+  <form method="get">
+    {{ filter_form.as_p }}
+    <button type="submit" class="btn comment-btn">Submit</button>
+  </form>
+</div>
