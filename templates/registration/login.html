@@ -17,8 +17,8 @@
 
                   <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                   <form action="{% url "login" %}" method="post">
-                    {% csrf_token %}
                     <div class="form-outline form-white mb-4">
+                      {% csrf_token %}
                       {{ form.as_p }}
                     </div>
                     <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
