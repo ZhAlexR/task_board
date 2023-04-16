@@ -21,23 +21,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "wfuuoem-ulbn%t=ylxcf%*d!+nnbpp_4ha=&3v$=+4fe5c=3n_")
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = "RENDER" not in os.environ
+DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
-    "task-boaed.onrender.com"
+    "task-boaed.onrender.com",
+    "task-board-service.onrender.com"
 ]
+
 
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+
 LOGIN_REDIRECT_URL = "/"
 
-LOGOUT_REDIRECT_URL = "/"
 
 # Application definition
 
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "debug_toolbar",
     "crispy_forms",
+    "django_extensions",
     "crispy_bootstrap4",
     "board",
 ]
@@ -123,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Kiev"
 
 USE_I18N = True
 
