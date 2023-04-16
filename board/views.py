@@ -75,7 +75,7 @@ class WorkerProjectListView(
 
     def get_queryset(self):
         user_pk = self.kwargs.get("pk")
-        queryset = super().get_queryset().filter(tasks__assignees=user_pk)
+        queryset = super().get_queryset().filter(tasks__assignees=user_pk).distinct()
         return queryset
 
 
