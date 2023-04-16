@@ -10,7 +10,7 @@ Abilities:
 
 ## Check it out!
 
-[Task Board Deployed to Render](https://task-boaed.onrender.com)
+[Task Board Service deployed to Render](https://task-board-service.onrender.com/)
 
 Test User:
 - login: User2
