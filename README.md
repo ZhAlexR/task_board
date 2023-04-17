@@ -13,7 +13,7 @@ Abilities:
 [Task Board Service deployed to Render](https://task-board-service.onrender.com/)
 
 Test User:
-- login: User2
+- login: TestUser
 - password: saha5991
 
 
