@@ -23,7 +23,7 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = "__all__"
         widgets = {
-            "deadline": forms.DateInput(attrs={"type": "date"}),
+            "deadline": forms.DateInput(attrs={"type": "date"})
         }
 
     def clean_deadline(self):
@@ -44,6 +44,7 @@ class TaskForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             "deadline": forms.DateInput(attrs={"type": "date"}),
+            "description": forms.Textarea(attrs={"style": "width: 100%"})
         }
 
     def clean_deadline(self):

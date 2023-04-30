@@ -6,11 +6,42 @@
   <div class="container">
     <div class="col-md-11">
       <div class="row detail-box">
-        <div class="col-5 task-detail">
+        <div class="col-10 task-detail">
           <h1>{{ object|yesno:"Update,Create" }} Task</h1>
           <form method="post" action="">
             {% csrf_token %}
-            {{ form.as_p }}
+            <table class="table table-striped table-dark table-wrapper-scroll-y" >
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Task type</th>
+                  <th scope="col">Project</th>
+                  <th scope="col">Priority</th>
+                  <th scope="col">Deadline</th>
+                  <th scope="col">Completed</th>
+                </tr>
+              </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ form.name }}</td>
+                    <td>{{ form.task_type }}</td>
+                    <td>{{ form.project }}</td>
+                    <td>{{ form.priority }}</td>
+                    <td>{{ form.deadline }}</td>
+                    <td>{{ form.is_completed }}</td>
+                  </tr>
+                </tbody>
+            </table>
+            <div>
+              {{ form.description }}
+            </div>
+            <div class="container">
+              <div class="row row-cols-3">
+                {% for worker in form.assignees %}
+                  <div class="col">{{ worker }}</div>
+                {% endfor %}
+              </div>
+            </div>
             <button class="btn btn-outline-light mx-2" type="submit">{{ object|yesno:"Update,Create" }} task</button>
             <a class="btn btn-outline-light mx-2" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
           </form>
