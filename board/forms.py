@@ -52,7 +52,9 @@ class TaskForm(forms.ModelForm):
         if deadline < timezone.now():
             raise forms.ValidationError("Deadline must be in the future.")
         if deadline > project.deadline:
-            raise forms.ValidationError("Task deadline must not be farther then project's deadline.")
+            raise forms.ValidationError(
+                "Task deadline must not be farther then project's deadline."
+            )
         return deadline
 
 

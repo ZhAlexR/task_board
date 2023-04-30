@@ -12,7 +12,6 @@ class SearchFormContextMixin:
 
 
 class SearchFormQuerySetMixin:
-
     def get_queryset(self):
         queryset = super().get_queryset()
         form = SearchForm(self.request.GET)

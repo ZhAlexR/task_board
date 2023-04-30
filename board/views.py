@@ -9,14 +9,18 @@ from django.views import generic
 
 from board.forms import TaskForm, ProjectForm, WorkerCreationForm, SearchForm
 from board.models import Task, Project, Worker
-from board.mixins import SearchFormQuerySetMixin, FilterFormMixin, SearchFormContextMixin
+from board.mixins import (
+    SearchFormQuerySetMixin,
+    FilterFormMixin,
+    SearchFormContextMixin,
+)
 
 
 class IndexListView(
     SearchFormContextMixin,
     SearchFormQuerySetMixin,
     FilterFormMixin,
-    generic.ListView
+    generic.ListView,
 ):
     model = Project
     template_name = "board/index.html"
@@ -44,7 +48,7 @@ class WorkerProjectListView(
     SearchFormQuerySetMixin,
     SearchFormContextMixin,
     FilterFormMixin,
-    generic.ListView
+    generic.ListView,
 ):
     model = Project
     template_name = "board/index.html"
@@ -75,7 +79,9 @@ class WorkerProjectListView(
 
     def get_queryset(self):
         user_pk = self.kwargs.get("pk")
-        queryset = super().get_queryset().filter(tasks__assignees=user_pk).distinct()
+        queryset = (
+            super().get_queryset().filter(tasks__assignees=user_pk).distinct()
+        )
         return queryset
 
 
@@ -86,9 +92,7 @@ class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
 
 
 class ProjectDetailView(
-    LoginRequiredMixin,
-    SearchFormContextMixin,
-    generic.DetailView
+    LoginRequiredMixin, SearchFormContextMixin, generic.DetailView
 ):
     model = Project
 
@@ -138,7 +142,7 @@ class WorkerTaskListView(
     LoginRequiredMixin,
     SearchFormContextMixin,
     SearchFormQuerySetMixin,
-    generic.ListView
+    generic.ListView,
 ):
     model = Task
     template_name = "board/task_list.html"
